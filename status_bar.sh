@@ -80,7 +80,7 @@ while true; do
     backlight_info
     keyboard_info
 
-    status="$LINE_COLOR Lang: $LAYOUT ^d^ | $LINE_COLOR Sun: $BACKLIGHT ^d^ | $LINE_COLOR Audio: $AUDIO_VOLUME $AUDIO_STATUS ^d^| $LINE_COLOR $SPACE_LEFT ^d^| $NETWORK_COLOR $SSID_IP ^d^ | $BATTERY_COLOR$BATTERY_CAPACITY% $BATTERY_STATUS ^d^ | $LINE_COLOR $(date +"%a %F %T") ^d^"
+    status="$LINE_COLOR Lang: $LAYOUT ^d^ │ $LINE_COLOR Sun: $BACKLIGHT ^d^ │ $LINE_COLOR Audio: $AUDIO_VOLUME $AUDIO_STATUS ^d^│ $LINE_COLOR $SPACE_LEFT ^d^│ $NETWORK_COLOR $SSID_IP ^d^ │ $BATTERY_COLOR$BATTERY_CAPACITY% $BATTERY_STATUS ^d^ │ $LINE_COLOR $(date +"%a %F %T") ^d^"
 
     echo $status
 
