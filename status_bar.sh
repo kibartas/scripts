@@ -1,37 +1,38 @@
 #!/bin/sh
 
+# DEPRECATED
+
 status=''
 
-POWER_SUPPLY=/sys/class/power_supply/BAT1
 # white
 DEFAULT_COLOR='^c#FFFFFF^'
 RED='^c#FF0000^'
 BLACK='^c#000000^'
 GREEN='^c#00FF00^'
+YELLOW='^c#FFFF00^'
 LINE_COLOR=$DEFAULT_COLOR
 NETWORK_COLOR=$DEFAULT_COLOR
 BATTERY_COLOR=$DEFAULT_COLOR
 
+#ported
 keyboard_info() {
     LAYOUT=$(~/builds/xkblayout-state/xkblayout-state print "%s") 
 }
 
+#ported
 network_info() {
-    SSID_IP=$(iw wlp3s0 info | grep -e 'ssid' -e 'addr' | sed -Ee 's/(addr|ssid)/ /')
+    SSID=$(iw wlp3s0 info | grep -e 'ssid' | sed -Ee 's/ssid/ /' | cut -sf2- -d\ )
     IP=$(ip route get 1 | awk '{print $7;exit}')
-    SSID=$(echo $SSID_IP | cut -sf2- -d\ )
+    #IP={ $(ip route get 1 | awk '{print $7;exit}') & $(echo $SSID); }
+    #SSID=$(echo $SSID_IP | cut -sf2- -d\ )
     SIGNAL_STRENGTH=0.$(awk 'NR==3 {print int($3 / 10)}' /proc/net/wireless)
 
-    if test -z $IP; then
-        SSID_IP="No connection" 
-        NETWORK_COLOR=$RED
-    else
-        SSID_IP="($SIGNAL_STRENGTH) $IP @ $SSID"
-        NETWORK_COLOR=$GREEN
-    fi
+    if test -z $IP; then SSID_IP="No connection" NETWORK_COLOR=$RED; else SSID_IP="($SIGNAL_STRENGTH) $IP @ $SSID" NETWORK_COLOR=$GREEN; fi
 }
 
+#ported
 battery_info() {
+    POWER_SUPPLY=/sys/class/power_supply/BAT1
     BATTERY_CAPACITY=$(cat $POWER_SUPPLY/capacity)
     BATTERY_STATUS=$(cat $POWER_SUPPLY/status)
 
@@ -50,10 +51,12 @@ battery_info() {
     fi
 }
 
+#ported
 partition_info() {
     SPACE_LEFT=$(df -h | grep '/$' | awk '{print $4, " available. Size: " $2}')
 }
 
+#ported
 audio_info() {
     # get volume in percentages and status [off/on]
     AUDIO_INFO=$(amixer get 'Master',0 | grep -m1 '%' | grep -Eo '\[.*\]' | sed 's/[][]//g')
@@ -67,6 +70,7 @@ audio_info() {
     fi
 }
 
+#ported
 backlight_info() {
     BACKLIGHT=$(enlighten | grep -Eo '[0-9]{1,3}%')
 }
@@ -85,4 +89,6 @@ while true; do
     echo $status
 
     xsetroot -name "$(echo $status)"
+
+    sleep 0.01
 done
