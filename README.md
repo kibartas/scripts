@@ -12,6 +12,7 @@
 - layout_status.sh - outputs information about current keyboard layout (uses [xkblayout-state](https://github.com/nonpop/xkblayout-state) to determine the current layout)
 - network_status.sh - outputs information on system's connection to wireless. If wireless connection exists it the system's IPv4 (NAT) and SSID in the format of `IP @ SSID`
 - partition_status.sh - outputs information about space left on my Linux partition
+- timer_status.sh - outputs timer info. Can be used standalone but one should then comment the `pkill` line near the end of the loop. Great with dwm and dwmblocks
 
 #### All of these scripts can be used with dwmblocks out of the box (except `layout_status.sh`) but they can also be used standalone (you'd just have to remove the color stuff)
 
