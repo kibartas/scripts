@@ -10,9 +10,8 @@ RED='^c#FF0000^'
 GREEN='^c#00FF00^'
 
 #Prep
-#SSID=$(iw wlp3s0 info | grep -e 'ssid' | cut -sf2- -d\ )
+SSID=$(iw wlp3s0 info | grep -e 'ssid' | cut -sf2- -d\ )
 IP=$(ip route get 1 | awk '{print $7;exit}')
-SSID="kenhamthescienceguy"
 
 # Fixed the problem
 SIGNAL_STRENGTH=0.$(awk 'NR==3 {print int($3 / 10)}' /proc/net/wireless)
