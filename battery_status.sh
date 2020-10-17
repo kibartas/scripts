@@ -11,6 +11,9 @@ LINE_COLOR=$DEFAULT_COLOR
 NETWORK_COLOR=$DEFAULT_COLOR
 BATTERY_COLOR=$DEFAULT_COLOR
 
+# I've added an acpi rule for when the charger gets plugged/unplugged it should a signal to dwmblocks. This sleep timer is here because this script gets run instantly when I plug/unplug my charger. The problem with instant run is that battery status doesn't change instantly. It changes in a bit more than a second
+sleep 2
+
 if test $BATTERY_CAPACITY -le 20 -a $BATTERY_STATUS = "Discharging"; then
     BATTERY_COLOR=$RED
     BATTERY_STATUS="▼"
