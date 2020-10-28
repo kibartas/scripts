@@ -2,16 +2,17 @@
 
 #Prep
 
-# get volume in percentages and status [off/on]
-AUDIO_INFO=$(amixer get 'Master',0 | grep -m1 '%' | grep -Eo '\[.*\]' | sed 's/[][]//g')
-AUDIO_STATUS=$(echo $AUDIO_INFO | awk '{print $2}')
-AUDIO_VOLUME=$(echo $AUDIO_INFO | awk '{print $1}')
+extract() {
+    INFO=$(amixer get "$1" | awk '{ if (NR==6) print $5 $6 }' | sed -E -e "s/\[//g" -e "s/\]/ /g")
+}
 
-if test $AUDIO_STATUS = 'on'; then
-    AUDIO_STATUS="On"
-elif test $AUDIO_STATUS = 'off'; then
-    AUDIO_STATUS="Off"
-fi
+# get volume in percentages and status [off/on]
+extract "Master"; AUDIO_INFO=$INFO
+AUDIO_STATUS=$(echo $AUDIO_INFO | cut -d\  -f2)
+AUDIO_VOLUME=$(echo $AUDIO_INFO | cut -d\  -f1)
+extract "Capture"; MIC_INFO=$INFO
+MIC_STATUS=$(echo $MIC_INFO | cut -d\  -f2)
+MIC_VOLUME=$(echo $MIC_INFO | cut -d\  -f1)
 
 #Output
-echo "$AUDIO_VOLUME $AUDIO_STATUS"
+echo "$AUDIO_VOLUME $AUDIO_STATUS | Mic: $MIC_STATUS"

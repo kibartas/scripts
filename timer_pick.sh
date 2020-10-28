@@ -17,6 +17,8 @@ GREEN='^c#00FF00^'
 YELLOW='^c#FFFF00^'
 WHITE='^c#FFFFFF^'
 
+$SCRIPTS/timer_util.sh
+
 get_line
 echo $LINE
 
